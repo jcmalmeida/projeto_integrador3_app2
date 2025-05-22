@@ -36,6 +36,13 @@ class ListaRiscosActivity : AppCompatActivity() {
 
         obterDadosBD()
 
+        val botaoMapaRisco = findViewById<Button>(R.id.button_ver_mapa_risco)
+
+        botaoMapaRisco.setOnClickListener {
+            val intent = Intent(this, MapaRiscoActivity::class.java)
+            startActivity(intent)
+        }
+
         botaoDeslogar.setOnClickListener {
             Firebase.auth.signOut()
             finish()
