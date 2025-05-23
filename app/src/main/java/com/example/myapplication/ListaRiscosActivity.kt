@@ -69,6 +69,7 @@ class ListaRiscosActivity : AppCompatActivity() {
         var listaRiscos = mutableListOf<Risco>()
 
         for (document in documents) {
+            val idRisco = document.id
             val descricao = document.data.get("descricao").toString()
             val localReferencia = document.data.get("localReferencia").toString()
             val emailUsuario = document.data.get("localReferencia").toString()
@@ -77,9 +78,10 @@ class ListaRiscosActivity : AppCompatActivity() {
             val imagemBase64 = document.data.get("imagemBase64").toString()
 
             val data = document.get("data").toString()
-            val dataFormatada = formatarData(data)
+            val dataFormatada = Data.formatarData(data)
 
             val risco = Risco(
+                idRisco,
                 descricao,
                 dataFormatada ?: "",
                 localReferencia,
@@ -93,17 +95,7 @@ class ListaRiscosActivity : AppCompatActivity() {
         if (listaRiscos.size > 0)
             findViewById<TextView>(R.id.tv_sem_risco).visibility = View.GONE
 
-        recyclerView.adapter = MeuAdapter(listaRiscos)
-    }
-
-    private fun formatarData(data: String): String?{
-
-        val formatoOriginal = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
-        val date: Date? = formatoOriginal.parse(data)
-        val formatoDesejado = SimpleDateFormat("dd/MM/yyyy, HH:mm", Locale.getDefault())
-        val dataFormatada = date?.let { formatoDesejado.format(it) }
-
-        return dataFormatada
+        recyclerView.adapter = MeuAdapter(this, listaRiscos)
     }
 
     override fun onResume() {

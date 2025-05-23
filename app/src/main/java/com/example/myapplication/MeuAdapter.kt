@@ -1,21 +1,30 @@
 package com.example.myapplication
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
-class MeuAdapter(private val listaRiscos: List<Risco>) : RecyclerView.Adapter<MeuAdapter.RiscoViewHolder>() {
+class MeuAdapter(
+    private val context: Context,
+    private val listaRiscos: List<Risco>) : RecyclerView.Adapter<MeuAdapter.RiscoViewHolder>() {
 
     class RiscoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titulo: TextView = itemView.findViewById(R.id.titulo_risco)
         val data: TextView = itemView.findViewById(R.id.data_risco)
         val local: TextView = itemView.findViewById(R.id.local_risco)
         val image: ImageView = itemView.findViewById(R.id.ic_camera)
+        val clickableArea: LinearLayout = itemView.findViewById(R.id.linear_layout_for_click)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RiscoViewHolder {
@@ -33,6 +42,11 @@ class MeuAdapter(private val listaRiscos: List<Risco>) : RecyclerView.Adapter<Me
             val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
 
             holder.image.setImageBitmap(bitmap)
+        }
+        holder.clickableArea.setOnClickListener {
+            val intent = Intent(context, RegistroActivity::class.java)
+            intent.putExtra("idRisco", risco.id)
+            context.startActivity(intent)
         }
     }
 

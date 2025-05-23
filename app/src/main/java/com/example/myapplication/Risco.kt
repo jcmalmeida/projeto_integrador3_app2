@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 data class Risco(
+    val id: String,
     val descricao: String,
     val data: String,
     val localReferencia: String,
