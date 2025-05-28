@@ -6,14 +6,11 @@ import java.util.Locale
 
 class Data {
     companion object {
-        public fun formatarData(data: String): String?{
+        fun formatarData(data: Date?): String? {
+            if (data == null) return null
 
-            val formatoOriginal = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
-            val date: Date? = formatoOriginal.parse(data)
             val formatoDesejado = SimpleDateFormat("dd/MM/yyyy, HH:mm", Locale.getDefault())
-            val dataFormatada = date?.let { formatoDesejado.format(it) }
-
-            return dataFormatada
+            return formatoDesejado.format(data)
         }
     }
 }

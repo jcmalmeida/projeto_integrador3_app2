@@ -61,11 +61,13 @@ class RegistroActivity : AppCompatActivity() {
     }
 
     private fun mostrarRiscoRegistrado(document: DocumentSnapshot) {
-        val data = document.data?.get("data").toString()
         val localReferencia = document.data?.get("localReferencia").toString()
         val descricao = document.data?.get("descricao").toString()
-        val autor = document.data?.get("localReferencia").toString()
+        val autor = document.data?.get("emailUsuario").toString()
         val imagemBase64 = document.data?.get("imagemBase64").toString()
+
+        val timestamp = document.getTimestamp("data")
+        val data = timestamp?.toDate()
         val dataFormatada = Data.formatarData(data)
 
         if (imagemBase64 != null) {
