@@ -27,6 +27,10 @@ captures/
 
 # Arquivos locais de propriedades
 local.properties
+local.defaults.properties
+secrets.properties
+/SafeZone_Manager/local.defaults.properties
+/SafeZone_Manager/secrets.properties
 
 # Cache de dependências do Kotlin/Jetpack Compose
 .kotlinc/

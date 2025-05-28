@@ -40,7 +40,7 @@
     <!-- Quadrado cinza claro centralizado com margem superior aumentada -->
     <LinearLayout
         android:id="@+id/gray_box"
-        android:layout_width="300dp"
+        android:layout_width="350dp"
         android:layout_height="420dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/text_title"
@@ -49,12 +49,12 @@
         android:background="@drawable/gray_light_rounded"
         android:gravity="center">
 
-        <!-- Quadrado verde escuro maior e mais alto -->
-        <View
-            android:id="@+id/green_inner_box"
-            android:layout_width="220dp"
-            android:layout_height="320dp"
-            android:background="@drawable/green_rounded"/>
+        <fragment
+            android:layout_margin="10dp"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -1,7 +1,7 @@
 package com.example.myapplication
 
+import android.content.ContextWrapper
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -9,16 +9,13 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
-import com.google.firebase.auth.FirebaseAuth
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import kotlinx.coroutines.launch
 
 class ListaRiscosActivity : AppCompatActivity() {
 
@@ -34,8 +31,6 @@ class ListaRiscosActivity : AppCompatActivity() {
 
         val botaoDeslogar = findViewById<FrameLayout>(R.id.back_container)
 
-        obterDadosBD()
-
         val botaoMapaRisco = findViewById<Button>(R.id.button_ver_mapa_risco)
 
         botaoMapaRisco.setOnClickListener {
@@ -47,60 +42,31 @@ class ListaRiscosActivity : AppCompatActivity() {
             Firebase.auth.signOut()
             finish()
         }
+
+        listarRiscosRegistrados(this)
     }
 
-    private fun obterDadosBD()
-    {
-        db.collection("riscos")
-            .get()
-            .addOnSuccessListener { documents ->
-                listarRiscosRegistrados(documents)
-            }
-            .addOnFailureListener { exception ->
+    private fun listarRiscosRegistrados(context: ContextWrapper){
+        lifecycleScope.launch {
+            val riscos = FirebaseDB.obterTodosRegistros(db)
+
+            if (riscos.isEmpty())
                 Toast.makeText(
-                    this,
+                    baseContext,
                     "Não foi possível obter a lista de riscos registrados.",
                     Toast.LENGTH_SHORT
                 ).show()
-            }
-    }
 
-    private fun listarRiscosRegistrados(documents: QuerySnapshot){
-        var listaRiscos = mutableListOf<Risco>()
+            if (riscos.size > 0)
+                findViewById<TextView>(R.id.tv_sem_risco).visibility = View.GONE
 
-        for (document in documents) {
-            val idRisco = document.id
-            val descricao = document.data.get("descricao").toString()
-            val localReferencia = document.data.get("localReferencia").toString()
-            val emailUsuario = document.data.get("localReferencia").toString()
-            val latitude = document.data.get("latitude").toString()
-            val longitude = document.data.get("longitude").toString()
-            val imagemBase64 = document.data.get("imagemBase64").toString()
-
-            val data = document.get("data").toString()
-            val dataFormatada = Data.formatarData(data)
-
-            val risco = Risco(
-                idRisco,
-                descricao,
-                dataFormatada ?: "",
-                localReferencia,
-                emailUsuario,
-                latitude,
-                longitude,
-                imagemBase64)
-            listaRiscos.add(risco)
+           recyclerView.adapter = MeuAdapter(context, riscos)
         }
-
-        if (listaRiscos.size > 0)
-            findViewById<TextView>(R.id.tv_sem_risco).visibility = View.GONE
-
-        recyclerView.adapter = MeuAdapter(this, listaRiscos)
     }
 
     override fun onResume() {
         super.onResume()
 
-        obterDadosBD()
+        listarRiscosRegistrados(this)
     }
 }
