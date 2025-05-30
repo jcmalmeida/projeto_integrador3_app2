@@ -37,7 +37,7 @@ class FirebaseDB {
                 val risco = Risco(
                     idRisco,
                     descricao,
-                    dataFormatada ?: "",
+                    data = timestamp,
                     localReferencia,
                     emailUsuario,
                     latitude,

@@ -15,6 +15,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MapaRiscoActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -51,45 +53,48 @@ class MapaRiscoActivity : AppCompatActivity(), OnMapReadyCallback {
 
         for ((id, nome, lat, lon) in pontos) {
             val pos = LatLng(lat, lon)
-            val marker = mMap.addMarker(MarkerOptions()
-                .position(pos)
-                .title(nome)
-                .snippet("Clique para ver mais informações"))
+            val marker = mMap.addMarker(
+                MarkerOptions()
+                    .position(pos)
+                    .title(nome)
+                    .snippet("Clique para ver mais informações")
+            )
 
             marker?.tag = id
         }
 
-        mMap.setOnInfoWindowClickListener { marker ->
-            val id = marker.tag as? String
-            val intent = Intent(this, RegistroActivity::class.java)
-            intent.putExtra("idRisco", id)
-            startActivity(intent)
-        }
-
         val primeiro = pontos.first()
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-            LatLng(primeiro.third, primeiro.fourth), 13f))
+        mMap.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                LatLng(primeiro.third, primeiro.fourth),
+                13f
+            )
+        )
     }
 
-    private fun listarRiscosRegistrados(){
+    private fun listarRiscosRegistrados() {
         lifecycleScope.launch {
             val riscos = FirebaseDB.obterTodosRegistros(db)
 
-            if (riscos.isEmpty())
+            if (riscos.isEmpty()) {
                 Toast.makeText(
                     baseContext,
                     "Não foi possível obter a lista de riscos registrados.",
                     Toast.LENGTH_SHORT
                 ).show()
+            }
 
-            if (riscos.size > 0) {
+            if (riscos.isNotEmpty()) {
+                val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 val pontosObtidos: MutableList<Quadruple> = mutableListOf()
 
                 for (risco in riscos) {
+                    val dataFormatada = risco.data?.toDate()?.let { sdf.format(it) } ?: "Data indefinida"
+
                     pontosObtidos.add(
                         Quadruple(
                             risco.id,
-                            risco.data,
+                            dataFormatada,
                             risco.latitude.toDouble(),
                             risco.longitude.toDouble()
                         )

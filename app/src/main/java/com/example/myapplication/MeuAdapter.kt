@@ -11,10 +11,14 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Timestamp
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MeuAdapter(
     private val context: Context,
-    private val listaRiscos: List<Risco>) : RecyclerView.Adapter<MeuAdapter.RiscoViewHolder>() {
+    private val listaRiscos: List<Risco>
+) : RecyclerView.Adapter<MeuAdapter.RiscoViewHolder>() {
 
     class RiscoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titulo: TextView = itemView.findViewById(R.id.titulo_risco)
@@ -32,14 +36,21 @@ class MeuAdapter(
     override fun onBindViewHolder(holder: RiscoViewHolder, position: Int) {
         val risco = listaRiscos[position]
         holder.titulo.text = risco.descricao
-        holder.data.text = risco.data
+
+        // ✅ Conversão de Timestamp? para String usando SimpleDateFormat
+        val dataFormatada = risco.data?.toDate()?.let {
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(it)
+        } ?: "Data não informada"
+        holder.data.text = dataFormatada
+
         holder.local.text = risco.localReferencia
+
         if (risco.imagemBase64 != null) {
             val imageBytes = Base64.decode(risco.imagemBase64, Base64.DEFAULT)
             val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-
             holder.image.setImageBitmap(bitmap)
         }
+
         holder.clickableArea.setOnClickListener {
             val intent = Intent(context, RegistroActivity::class.java)
             intent.putExtra("idRisco", risco.id)

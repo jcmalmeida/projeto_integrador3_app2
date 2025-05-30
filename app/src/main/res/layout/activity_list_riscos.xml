@@ -43,7 +43,40 @@
             android:textColor="#FFFFFF"
             android:textSize="32sp"
             android:gravity="center"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="16dp" />
+
+        <!-- FILTRO POR DATA COM CAMPO -->
+        <LinearLayout
+            android:id="@+id/dataFilterContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/et_data_filtro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:hint="dd/MM/yyyy"
+                android:textColorHint="@color/white"
+                android:inputType="date"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="#FFFFFF"
+                android:padding="10dp"
+                android:maxLines="1"
+                android:ems="10" />
+
+            <Button
+                android:id="@+id/btn_filtrar_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filtrar por Data"
+                android:backgroundTint="#E5E5E5"
+                android:textColor="#2F5233"
+                android:padding="10dp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,7 +96,6 @@
                 android:textColor="#2F5233"
                 android:padding="12dp"
                 android:contentDescription="Ver Mapa de Risco" />
-
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -80,8 +112,6 @@
             android:textSize="18sp"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
-            android:visibility="visible"
-            />
-
+            android:visibility="visible" />
     </LinearLayout>
 </RelativeLayout>
