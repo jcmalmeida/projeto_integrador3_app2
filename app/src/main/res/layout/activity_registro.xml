@@ -37,77 +37,133 @@
         android:layout_marginTop="32dp"
         android:layout_below="@id/back_container" />
 
-    <!-- Quadrado cinza claro centralizado com margem superior aumentada -->
-    <LinearLayout
-        android:id="@+id/gray_box"
-        android:layout_width="317dp"
-        android:layout_height="465dp"
+    <!-- ScrollView para o conteúdo -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/text_title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/gray_light_rounded"
-        android:gravity="start"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:layout_marginTop="24dp"
+        android:fillViewport="true">
 
-        <!-- Data -->
-        <TextView
-            android:id="@+id/tv_data_registro"
-            android:layout_width="wrap_content"
+        <!-- Container centralizador -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:text="Data:"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <!-- Local -->
-        <TextView
-            android:id="@+id/tv_localizacao_registro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:text="Local:"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            <!-- Caixa cinza -->
+            <LinearLayout
+                android:id="@+id/gray_box"
+                android:layout_width="317dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gray_light_rounded"
+                android:orientation="vertical"
+                android:padding="24dp">
 
-        <!-- Descrição -->
-        <TextView
-            android:id="@+id/tv_descricao_registro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:text="Descrição:"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+                <!-- Data -->
+                <TextView
+                    android:id="@+id/tv_data_registro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Data:"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-        <!-- Quem Registrou -->
-        <TextView
-            android:id="@+id/tv_autor_registro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="Quem Registrou:"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+                <!-- Local -->
+                <TextView
+                    android:id="@+id/tv_localizacao_registro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Local:"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-        <!-- Ícone da câmera com fundo verde claro maior e bordas arredondadas -->
-        <FrameLayout
-            android:layout_width="287dp"
-            android:layout_height="221dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rounded_green_background">
+                <!-- Descrição -->
+                <TextView
+                    android:id="@+id/tv_descricao_registro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Descrição:"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/iv_foto_registro"
-                android:layout_width="match_parent"
-                android:layout_height="204dp"
-                android:contentDescription="Adicionar Foto"
-                android:src="@drawable/ic_add_photo" />
-        </FrameLayout>
-    </LinearLayout>
+                <!-- Quem Registrou -->
+                <TextView
+                    android:id="@+id/tv_autor_registro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="Quem Registrou:"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <!-- Imagem -->
+                <FrameLayout
+                    android:layout_width="287dp"
+                    android:layout_height="221dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/rounded_green_background">
+
+                    <ImageView
+                        android:id="@+id/iv_foto_registro"
+                        android:layout_width="match_parent"
+                        android:layout_height="204dp"
+                        android:contentDescription="Adicionar Foto"
+                        android:src="@drawable/ic_add_photo" />
+                </FrameLayout>
+
+                <!-- RadioGroup com opções -->
+                <RadioGroup
+                    android:id="@+id/radioGroupStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_gravity="center_horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioAtuando"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Atuando"
+                        android:textColor="#000000" />
+
+                    <RadioButton
+                        android:id="@+id/radioResolvido"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Resolvido"
+                        android:textColor="#000000"
+                        android:layout_marginStart="24dp" />
+                </RadioGroup>
+
+                <!-- Botão Salvar -->
+                <Button
+                    android:id="@+id/button_salvar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Salvar"
+                    android:layout_marginTop="24dp"
+                    android:background="#6A994E"
+                    android:textColor="#FFFFFF" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
 </RelativeLayout>
+
+
+
+
+
