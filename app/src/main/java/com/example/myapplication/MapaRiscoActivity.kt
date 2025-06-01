@@ -63,6 +63,13 @@ class MapaRiscoActivity : AppCompatActivity(), OnMapReadyCallback {
             marker?.tag = id
         }
 
+        mMap.setOnInfoWindowClickListener { marker ->
+            val id = marker.tag as? String
+            val intent = Intent(this, RegistroActivity::class.java)
+            intent.putExtra("idRisco", id)
+            startActivity(intent)
+        }
+
         val primeiro = pontos.first()
         mMap.moveCamera(
             CameraUpdateFactory.newLatLngZoom(
